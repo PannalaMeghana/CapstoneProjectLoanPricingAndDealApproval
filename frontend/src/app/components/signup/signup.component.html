@@ -1,0 +1,112 @@
+<div class="signup-container">
+  <div class="signup-card">
+    <div class="signup-header">
+      <h1>Create Account</h1>
+      <p>Join the Loan Approval System</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" class="signup-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstName" class="form-label">First Name</label>
+          <input
+            type="text"
+            id="firstName"
+            name="firstName"
+            [(ngModel)]="signupData.firstName"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="lastName" class="form-label">Last Name</label>
+          <input
+            type="text"
+            id="lastName"
+            name="lastName"
+            [(ngModel)]="signupData.lastName"
+            class="form-control"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="username" class="form-label">Username</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          [(ngModel)]="signupData.username"
+          class="form-control"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="signupData.email"
+          class="form-control"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="signupData.password"
+          class="form-control"
+          required
+        />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="designation" class="form-label">Designation</label>
+          <input
+            type="text"
+            id="designation"
+            name="designation"
+            [(ngModel)]="signupData.designation"
+            class="form-control"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="department" class="form-label">Department</label>
+          <input
+            type="text"
+            id="department"
+            name="department"
+            [(ngModel)]="signupData.department"
+            class="form-control"
+          />
+        </div>
+      </div>
+
+      <div class="alert alert-success" *ngIf="successMessage">
+        {{ successMessage }}
+      </div>
+
+      <div class="alert alert-error" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block" [disabled]="loading">
+        {{ loading ? 'Creating Account...' : 'Sign Up' }}
+      </button>
+    </form>
+
+    <div class="signup-footer">
+      <p>Already have an account? <a routerLink="/login">Login</a></p>
+    </div>
+  </div>
+</div>

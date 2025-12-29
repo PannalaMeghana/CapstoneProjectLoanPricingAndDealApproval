@@ -1,0 +1,65 @@
+<div class="dashboard">
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-brand">
+        <h2>Loan Management System</h2>
+      </div>
+      <div class="navbar-menu">
+        <a routerLink="/user/dashboard" routerLinkActive="active">Dashboard</a>
+        <a routerLink="/user/loans" routerLinkActive="active">My Loans</a>
+        <span class="user-info">{{ currentUser?.username }}</span>
+        <button class="btn btn-secondary" (click)="logout()">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="page-header">
+      <h1>My Loans</h1>
+      <a routerLink="/user/loans/create" class="btn btn-primary">Create New Loan</a>
+    </div>
+
+    <div class="card">
+      <div class="table-container" *ngIf="loans.length > 0; else noLoans">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Deal Name</th>
+              <th>Borrower</th>
+              <th>Loan Amount</th>
+              <th>Tenor</th>
+              <th>Status</th>
+              <th>Created</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let loan of loans">
+              <td>{{ loan.dealName }}</td>
+              <td>{{ loan.borrowerName }}</td>
+              <td>{{ loan.currency }} {{ loan.loanAmount.toLocaleString() }}</td>
+              <td>{{ loan.tenorMonths }} months</td>
+              <td>
+                <span class="badge badge-{{ loan.status?.toLowerCase() }}">{{ loan.status }}</span>
+              </td>
+              <td>{{ loan.createdAt | date: 'short' }}</td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn-icon" (click)="viewLoan(loan.id)" title="View">👁️</button>
+                  <button class="btn-icon" (click)="editLoan(loan.id)" *ngIf="loan.status === 'DRAFT'" title="Edit">✏️</button>
+                  <button class="btn-icon danger" (click)="deleteLoan(loan.id)" *ngIf="loan.status === 'DRAFT'" title="Delete">🗑️</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ng-template #noLoans>
+        <div class="no-data">
+          <p>No loans found. Create your first loan application!</p>
+          <a routerLink="/user/loans/create" class="btn btn-primary">Create New Loan</a>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

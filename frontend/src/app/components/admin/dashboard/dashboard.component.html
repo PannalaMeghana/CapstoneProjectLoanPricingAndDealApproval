@@ -1,0 +1,83 @@
+<div class="dashboard">
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-brand">
+        <h2>Admin Portal</h2>
+      </div>
+      <div class="navbar-menu">
+        <a routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a>
+        <a routerLink="/admin/loans" routerLinkActive="active">All Loans</a>
+        <a routerLink="/admin/users" routerLinkActive="active">Users</a>
+        <span class="user-info">{{ currentUser?.username }} (Admin)</span>
+        <button class="btn btn-secondary" (click)="logout()">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="page-header">
+      <h1>Admin Dashboard</h1>
+      <p>Loan Approval & Management Overview</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value">{{ stats.total }}</div>
+        <div class="stat-label">Total Loans</div>
+      </div>
+      <div class="stat-card pending">
+        <div class="stat-value">{{ stats.submitted }}</div>
+        <div class="stat-label">Pending Review</div>
+      </div>
+      <div class="stat-card review">
+        <div class="stat-value">{{ stats.underReview }}</div>
+        <div class="stat-label">Under Review</div>
+      </div>
+      <div class="stat-card approved">
+        <div class="stat-value">{{ stats.approved }}</div>
+        <div class="stat-label">Approved</div>
+      </div>
+      <div class="stat-card rejected">
+        <div class="stat-value">{{ stats.rejected }}</div>
+        <div class="stat-label">Rejected</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Recent Loan Applications</h3>
+      <div class="table-container" *ngIf="loans.length > 0; else noLoans">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Deal Name</th>
+              <th>Borrower</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Submitted</th>
+              <th>Created By</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let loan of loans.slice(0, 10)">
+              <td>{{ loan.dealName }}</td>
+              <td>{{ loan.borrowerName }}</td>
+              <td>{{ loan.currency }} {{ loan.loanAmount.toLocaleString() }}</td>
+              <td>
+                <span class="badge badge-{{ loan.status?.toLowerCase() }}">{{ loan.status }}</span>
+              </td>
+              <td>{{ loan.submittedAt | date: 'short' }}</td>
+              <td>{{ loan.createdBy }}</td>
+              <td>
+                <a [routerLink]="['/admin/loans', loan.id]" class="btn btn-primary btn-sm">Review</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ng-template #noLoans>
+        <p class="no-data">No loans available</p>
+      </ng-template>
+    </div>
+  </div>
+</div>

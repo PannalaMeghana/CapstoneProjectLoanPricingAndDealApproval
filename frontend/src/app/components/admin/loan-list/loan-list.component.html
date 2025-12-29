@@ -1,0 +1,75 @@
+<div class="dashboard">
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-brand">
+        <h2>Admin Portal</h2>
+      </div>
+      <div class="navbar-menu">
+        <a routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a>
+        <a routerLink="/admin/loans" routerLinkActive="active">All Loans</a>
+        <a routerLink="/admin/users" routerLinkActive="active">Users</a>
+        <span class="user-info">{{ currentUser?.username }} (Admin)</span>
+        <button class="btn btn-secondary" (click)="logout()">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="page-header">
+      <h1>All Loans</h1>
+      <div class="filter-controls">
+        <select [(ngModel)]="selectedStatus" (change)="filterLoans()" class="form-control">
+          <option value="ALL">All Status</option>
+          <option value="DRAFT">Draft</option>
+          <option value="SUBMITTED">Submitted</option>
+          <option value="UNDER_REVIEW">Under Review</option>
+          <option value="APPROVED">Approved</option>
+          <option value="REJECTED">Rejected</option>
+          <option value="DISBURSED">Disbursed</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="table-container" *ngIf="filteredLoans.length > 0; else noLoans">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Deal Name</th>
+              <th>Borrower</th>
+              <th>Industry</th>
+              <th>Loan Amount</th>
+              <th>Tenor</th>
+              <th>All-In Rate</th>
+              <th>Status</th>
+              <th>Created By</th>
+              <th>Submitted</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let loan of filteredLoans">
+              <td><strong>{{ loan.dealName }}</strong></td>
+              <td>{{ loan.borrowerName }}</td>
+              <td>{{ loan.borrowerIndustry }}</td>
+              <td>{{ loan.currency }} {{ loan.loanAmount.toLocaleString() }}</td>
+              <td>{{ loan.tenorMonths }}m</td>
+              <td>{{ loan.allInRate }}%</td>
+              <td>
+                <span class="badge badge-{{ loan.status?.toLowerCase() }}">{{ loan.status }}</span>
+              </td>
+              <td>{{ loan.createdBy }}</td>
+              <td>{{ loan.submittedAt | date: 'short' }}</td>
+              <td>
+                <a [routerLink]="['/admin/loans', loan.id]" class="btn btn-primary btn-sm">Review</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ng-template #noLoans>
+        <p class="no-data">No loans found with selected filter</p>
+      </ng-template>
+    </div>
+  </div>
+</div>

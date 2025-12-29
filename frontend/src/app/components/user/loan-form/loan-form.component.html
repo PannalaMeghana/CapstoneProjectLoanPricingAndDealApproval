@@ -1,0 +1,173 @@
+<div class="dashboard">
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-brand">
+        <h2>Loan Management System</h2>
+      </div>
+      <div class="navbar-menu">
+        <a routerLink="/user/dashboard" routerLinkActive="active">Dashboard</a>
+        <a routerLink="/user/loans" routerLinkActive="active">My Loans</a>
+        <span class="user-info">{{ currentUser?.username }}</span>
+        <button class="btn btn-secondary" (click)="logout()">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="page-header">
+      <h1>{{ isEditMode ? 'Edit Loan' : 'Create New Loan' }}</h1>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" class="loan-form">
+      <div class="card">
+        <h3>Basic Information</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Deal Name *</label>
+            <input type="text" [(ngModel)]="loan.dealName" name="dealName" class="form-control" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Borrower Name *</label>
+            <input type="text" [(ngModel)]="loan.borrowerName" name="borrowerName" class="form-control" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Borrower Industry *</label>
+            <input type="text" [(ngModel)]="loan.borrowerIndustry" name="borrowerIndustry" class="form-control" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Loan Type *</label>
+            <select [(ngModel)]="loan.loanType" name="loanType" class="form-control" required>
+              <option>Term Loan</option>
+              <option>Revolving Credit</option>
+              <option>Working Capital</option>
+              <option>Project Finance</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Currency *</label>
+            <select [(ngModel)]="loan.currency" name="currency" class="form-control" required>
+              <option>USD</option>
+              <option>EUR</option>
+              <option>GBP</option>
+              <option>JPY</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Loan Amount *</label>
+            <input type="number" [(ngModel)]="loan.loanAmount" name="loanAmount" class="form-control" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Tenor (Months) *</label>
+            <input type="number" [(ngModel)]="loan.tenorMonths" name="tenorMonths" class="form-control" required />
+          </div>
+
+          <div class="form-group full-width">
+            <label class="form-label">Purpose *</label>
+            <textarea [(ngModel)]="loan.purpose" name="purpose" class="form-control" rows="3" required></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Pricing Details</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Base Rate (%)</label>
+            <input type="number" step="0.01" [(ngModel)]="loan.baseRate" name="baseRate" class="form-control" (change)="calculateAllInRate()" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Spread (%)</label>
+            <input type="number" step="0.01" [(ngModel)]="loan.spread" name="spread" class="form-control" (change)="calculateAllInRate()" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">All-In Rate (%)</label>
+            <input type="number" step="0.01" [(ngModel)]="loan.allInRate" name="allInRate" class="form-control" readonly />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Arrangement Fee (%)</label>
+            <input type="number" step="0.01" [(ngModel)]="loan.arrangementFee" name="arrangementFee" class="form-control" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Commitment Fee (%)</label>
+            <input type="number" step="0.01" [(ngModel)]="loan.commitmentFee" name="commitmentFee" class="form-control" />
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Risk Assessment</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Credit Rating</label>
+            <select [(ngModel)]="loan.creditRating" name="creditRating" class="form-control">
+              <option>AAA</option>
+              <option>AA</option>
+              <option>A</option>
+              <option>BBB</option>
+              <option>BB</option>
+              <option>B</option>
+              <option>CCC</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Risk Category</label>
+            <select [(ngModel)]="loan.riskCategory" name="riskCategory" class="form-control">
+              <option>Low</option>
+              <option>Medium</option>
+              <option>High</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Probability of Default (%)</label>
+            <input type="number" step="0.01" [(ngModel)]="loan.probabilityOfDefault" name="probabilityOfDefault" class="form-control" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Loss Given Default (%)</label>
+            <input type="number" step="0.01" [(ngModel)]="loan.lossGivenDefault" name="lossGivenDefault" class="form-control" />
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Collateral</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Collateral Type</label>
+            <input type="text" [(ngModel)]="loan.collateralType" name="collateralType" class="form-control" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Collateral Value</label>
+            <input type="number" [(ngModel)]="loan.collateralValue" name="collateralValue" class="form-control" (change)="calculateLTV()" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Loan to Value (%)</label>
+            <input type="number" step="0.01" [(ngModel)]="loan.loanToValue" name="loanToValue" class="form-control" readonly />
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-success" *ngIf="successMessage">{{ successMessage }}</div>
+      <div class="alert alert-error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+      <div class="form-actions">
+        <button type="button" routerLink="/user/loans" class="btn btn-secondary">Cancel</button>
+        <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Update' : 'Create' }} Loan</button>
+      </div>
+    </form>
+  </div>
+</div>

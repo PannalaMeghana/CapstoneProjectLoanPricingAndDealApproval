@@ -1,0 +1,84 @@
+.dashboard {
+  min-height: 100vh;
+  background-color: #f5f7fa;
+}
+
+.navbar {
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 16px 0;
+  margin-bottom: 32px;
+}
+
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-brand h2 {
+  font-size: 20px;
+  color: #0066cc;
+  font-weight: 600;
+}
+
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.navbar-menu a {
+  color: #64748b;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.navbar-menu a:hover,
+.navbar-menu a.active {
+  color: #0066cc;
+  background-color: #f0f7ff;
+}
+
+.user-info {
+  color: #374151;
+  font-weight: 500;
+  padding: 8px 16px;
+  background-color: #f3f4f6;
+  border-radius: 6px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.page-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.filter-controls select {
+  width: 200px;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.no-data {
+  text-align: center;
+  padding: 60px 20px;
+  color: #9ca3af;
+}

@@ -1,0 +1,61 @@
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: loan-approval-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: loan_approval_db
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - loan-approval-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/loan_approval_db --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  backend:
+    build: ./backend
+    container_name: loan-approval-backend
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/loan_approval_db
+      - SPRING_DATA_MONGODB_DATABASE=loan_approval_db
+      - JWT_SECRET=YourSecretKeyForJWTTokenGenerationMustBeLongEnoughForHS512Algorithm
+      - JWT_EXPIRATION=86400000
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - loan-approval-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  frontend:
+    build: ./frontend
+    container_name: loan-approval-frontend
+    restart: unless-stopped
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    networks:
+      - loan-approval-network
+
+volumes:
+  mongodb_data:
+    driver: local
+
+networks:
+  loan-approval-network:
+    driver: bridge

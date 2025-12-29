@@ -1,0 +1,67 @@
+<div class="dashboard">
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-brand">
+        <h2>Loan Management System</h2>
+      </div>
+      <div class="navbar-menu">
+        <a routerLink="/user/dashboard" routerLinkActive="active">Dashboard</a>
+        <a routerLink="/user/loans" routerLinkActive="active">My Loans</a>
+        <span class="user-info">{{ currentUser?.username }}</span>
+        <button class="btn btn-secondary" (click)="logout()">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="page-header">
+      <h1>Dashboard</h1>
+      <p>Welcome back, {{ currentUser?.username }}!</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value">{{ stats.total }}</div>
+        <div class="stat-label">Total Loans</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">{{ stats.draft }}</div>
+        <div class="stat-label">Draft</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">{{ stats.submitted }}</div>
+        <div class="stat-label">In Review</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">{{ stats.approved }}</div>
+        <div class="stat-label">Approved</div>
+      </div>
+    </div>
+
+    <div class="action-cards">
+      <div class="card">
+        <h3>Quick Actions</h3>
+        <div class="action-buttons">
+          <a routerLink="/user/loans/create" class="btn btn-primary">Create New Loan Application</a>
+          <a routerLink="/user/loans" class="btn btn-secondary">View All Loans</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Recent Loans</h3>
+        <div class="recent-loans" *ngIf="loans.length > 0; else noLoans">
+          <div class="loan-item" *ngFor="let loan of loans.slice(0, 5)">
+            <div class="loan-info">
+              <strong>{{ loan.dealName }}</strong>
+              <span class="loan-amount">${{ loan.loanAmount.toLocaleString() }}</span>
+            </div>
+            <span class="badge badge-{{ loan.status?.toLowerCase() }}">{{ loan.status }}</span>
+          </div>
+        </div>
+        <ng-template #noLoans>
+          <p class="no-data">No loans yet. Create your first loan application!</p>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

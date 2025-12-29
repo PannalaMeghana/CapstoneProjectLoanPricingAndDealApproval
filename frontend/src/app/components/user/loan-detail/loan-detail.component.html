@@ -1,0 +1,139 @@
+<div class="dashboard">
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-brand">
+        <h2>Loan Management System</h2>
+      </div>
+      <div class="navbar-menu">
+        <a routerLink="/user/dashboard" routerLinkActive="active">Dashboard</a>
+        <a routerLink="/user/loans" routerLinkActive="active">My Loans</a>
+        <span class="user-info">{{ currentUser?.username }}</span>
+        <button class="btn btn-secondary" (click)="logout()">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container" *ngIf="loan">
+    <div class="page-header">
+      <div>
+        <h1>{{ loan.dealName }}</h1>
+        <span class="badge badge-{{ loan.status?.toLowerCase() }}">{{ loan.status }}</span>
+      </div>
+      <div class="header-actions">
+        <a [routerLink]="['/user/loans/edit', loan.id]" class="btn btn-secondary" *ngIf="loan.status === 'DRAFT'">Edit</a>
+        <button class="btn btn-success" (click)="submitLoan()" *ngIf="loan.status === 'DRAFT'">Submit for Approval</button>
+      </div>
+    </div>
+
+    <div class="detail-grid">
+      <div class="card">
+        <h3>Basic Information</h3>
+        <div class="detail-row">
+          <span class="label">Borrower:</span>
+          <span class="value">{{ loan.borrowerName }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Industry:</span>
+          <span class="value">{{ loan.borrowerIndustry }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Loan Type:</span>
+          <span class="value">{{ loan.loanType }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Loan Amount:</span>
+          <span class="value">{{ loan.currency }} {{ loan.loanAmount.toLocaleString() }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Tenor:</span>
+          <span class="value">{{ loan.tenorMonths }} months</span>
+        </div>
+        <div class="detail-row full-width">
+          <span class="label">Purpose:</span>
+          <span class="value">{{ loan.purpose }}</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Pricing Details</h3>
+        <div class="detail-row">
+          <span class="label">Base Rate:</span>
+          <span class="value">{{ loan.baseRate }}%</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Spread:</span>
+          <span class="value">{{ loan.spread }}%</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">All-In Rate:</span>
+          <span class="value highlight">{{ loan.allInRate }}%</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Arrangement Fee:</span>
+          <span class="value">{{ loan.arrangementFee }}%</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Commitment Fee:</span>
+          <span class="value">{{ loan.commitmentFee }}%</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Risk Assessment</h3>
+        <div class="detail-row">
+          <span class="label">Credit Rating:</span>
+          <span class="value">{{ loan.creditRating }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Risk Category:</span>
+          <span class="value">{{ loan.riskCategory }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Probability of Default:</span>
+          <span class="value">{{ loan.probabilityOfDefault }}%</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Loss Given Default:</span>
+          <span class="value">{{ loan.lossGivenDefault }}%</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Collateral</h3>
+        <div class="detail-row">
+          <span class="label">Collateral Type:</span>
+          <span class="value">{{ loan.collateralType || 'N/A' }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Collateral Value:</span>
+          <span class="value">{{ loan.collateralValue?.toLocaleString() || 'N/A' }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Loan to Value:</span>
+          <span class="value">{{ loan.loanToValue }}%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Comments</h3>
+      <div class="comments-section">
+        <div class="comment" *ngFor="let comment of loan.comments">
+          <div class="comment-header">
+            <strong>{{ comment.commentBy }}</strong>
+            <span class="comment-date">{{ comment.commentedAt | date: 'short' }}</span>
+          </div>
+          <p>{{ comment.commentText }}</p>
+        </div>
+        <div class="no-data" *ngIf="!loan.comments || loan.comments.length === 0">
+          <p>No comments yet</p>
+        </div>
+      </div>
+
+      <div class="add-comment">
+        <textarea [(ngModel)]="newComment" class="form-control" rows="3" placeholder="Add a comment..."></textarea>
+        <button class="btn btn-primary" (click)="addComment()" [disabled]="!newComment.trim()">Add Comment</button>
+      </div>
+    </div>
+  </div>
+</div>
