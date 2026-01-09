@@ -36,7 +36,6 @@ class LoanServiceTest {
         loan.setStatus(Loan.LoanStatus.DRAFT);
     }
 
-    // ---------- CREATE ----------
     @Test
     void createLoan_shouldSetDefaultsAndSave() {
         when(loanRepository.save(any(Loan.class)))
@@ -52,7 +51,7 @@ class LoanServiceTest {
         verify(loanRepository).save(any(Loan.class));
     }
 
-    // ---------- READ ----------
+
     @Test
     void getAllLoans_shouldReturnList() {
         when(loanRepository.findAll()).thenReturn(List.of(loan));
@@ -95,7 +94,6 @@ class LoanServiceTest {
         verify(loanRepository).findById("loan123");
     }
 
-    // ---------- UPDATE ----------
     @Test
     void updateLoan_shouldUpdateFields() {
         Loan updated = new Loan();
@@ -114,7 +112,7 @@ class LoanServiceTest {
         verify(loanRepository).save(loan);
     }
 
-    // ---------- STATUS ----------
+
     @Test
     void updateLoanStatus_shouldSubmitLoan() {
         when(loanRepository.findById("loan123"))
@@ -154,7 +152,7 @@ class LoanServiceTest {
         assertThat(result.getApprovedAt()).isNotNull();
     }
 
-    // ---------- COMMENTS ----------
+
     @Test
     void addComment_shouldAddComment() {
         when(loanRepository.findById("loan123"))
@@ -169,7 +167,7 @@ class LoanServiceTest {
                 .isEqualTo("Looks good");
     }
 
-    // ---------- DELETE ----------
+
     @Test
     void deleteLoan_shouldDeleteLoan() {
         doNothing().when(loanRepository).deleteById("loan123");

@@ -1,54 +1,8 @@
+/* ================== DASHBOARD / STATS CARDS ================== */
 .dashboard {
   min-height: 100vh;
   background-color: #f5f7fa;
-}
-
-.navbar {
-  background: white;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  padding: 16px 0;
-  margin-bottom: 32px;
-}
-
-.navbar .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.navbar-brand h2 {
-  font-size: 20px;
-  color: #0066cc;
-  font-weight: 600;
-}
-
-.navbar-menu {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-
-.navbar-menu a {
-  color: #64748b;
-  text-decoration: none;
-  font-weight: 500;
-  padding: 8px 12px;
-  border-radius: 6px;
-  transition: all 0.2s;
-}
-
-.navbar-menu a:hover,
-.navbar-menu a.active {
-  color: #0066cc;
-  background-color: #f0f7ff;
-}
-
-.user-info {
-  color: #374151;
-  font-weight: 500;
-  padding: 8px 16px;
-  background-color: #f3f4f6;
-  border-radius: 6px;
+  padding-bottom: 50px;
 }
 
 .page-header {
@@ -56,7 +10,7 @@
 }
 
 .page-header h1 {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 700;
   color: #1a1a1a;
   margin-bottom: 8px;
@@ -75,28 +29,24 @@
 }
 
 .stat-card {
-  background: white;
+  background: #fff;
   padding: 24px;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  border-left: 4px solid #0066cc;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+  border-left: 6px solid #0066cc;
+  text-align: center;
+  transition: all 0.3s ease;
 }
 
-.stat-card.pending {
-  border-left-color: #1e40af;
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
 
-.stat-card.review {
-  border-left-color: #92400e;
-}
-
-.stat-card.approved {
-  border-left-color: #065f46;
-}
-
-.stat-card.rejected {
-  border-left-color: #991b1b;
-}
+.stat-card.pending { border-left-color: #f59f00; }
+.stat-card.review { border-left-color: #1c7ed6; }
+.stat-card.approved { border-left-color: #2f9e44; }
+.stat-card.rejected { border-left-color: #c92a2a; }
 
 .stat-value {
   font-size: 36px;
@@ -109,26 +59,4 @@
   font-size: 14px;
   color: #64748b;
   font-weight: 500;
-}
-
-.card h3 {
-  font-size: 18px;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 20px;
-}
-
-.table-container {
-  overflow-x: auto;
-}
-
-.btn-sm {
-  padding: 6px 12px;
-  font-size: 12px;
-}
-
-.no-data {
-  text-align: center;
-  padding: 40px;
-  color: #9ca3af;
 }
