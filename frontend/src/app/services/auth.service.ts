@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { tap } from "rxjs/operators";
 import { LoginRequest, SignupRequest, JwtResponse } from "../models/user.model";
 
-const API_URL = "http://localhost:8080/api/auth/";
+const API_URL = "http://13.201.77.166:8080/api/auth/";
 const httpOptions = {
   headers: new HttpHeaders({ "Content-Type": "application/json" }),
 };

@@ -3,8 +3,8 @@ import { HttpClient } from "@angular/common/http"
 import { Observable } from "rxjs"
 import { User } from "../models/user.model"
 
-const API_URL = "http://localhost:8080/api/admin/users/"
 
+const API_URL = "http://13.201.77.166:8080/api/admin/users/";
 @Injectable({
   providedIn: "root",
 })
