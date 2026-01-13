@@ -16,7 +16,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/user/loans")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
 @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
 public class UserLoanController {
     
